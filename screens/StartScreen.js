@@ -8,7 +8,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { CheckBox } from "react-native-elements";
+import Checkbox from 'expo-checkbox';
 
 const StartScreen = ({ navigation, route }) => {
   const {
@@ -23,7 +23,6 @@ const StartScreen = ({ navigation, route }) => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleReset = () => {
     setName("");
@@ -35,16 +34,10 @@ const StartScreen = ({ navigation, route }) => {
     setPhoneError("");
   };
 
-  const handleRegister = async () => {
-    setIsLoading(true);
-
+  const handleRegister = () => {
     if (name && email && phone && !nameError && !emailError && !phoneError) {
-      // Simulate an API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsLoading(false);
       navigation.navigate("Confirm", { name, email, phone });
     } else {
-      setIsLoading(false);
       Alert.alert("Invalid Input", "Please fill in all fields correctly.");
     }
   };
@@ -122,12 +115,15 @@ const StartScreen = ({ navigation, route }) => {
         />
         {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
-        <CheckBox
-          title="I am not a robot"
-          checked={isChecked}
-          onPress={() => setIsChecked(!isChecked)}
-          containerStyle={styles.checkbox}
-        />
+        <View style={styles.checkboxContainer}>
+          <Checkbox
+            value={isChecked}
+            onValueChange={setIsChecked}
+            color={isChecked ? '#4630EB' : undefined}
+            style={styles.checkbox}
+          />
+          <Text style={styles.checkboxLabel}>I am not a robot</Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleReset}>
@@ -136,14 +132,12 @@ const StartScreen = ({ navigation, route }) => {
           <TouchableOpacity
             style={[
               styles.button,
-              (!isChecked || isLoading) && styles.disabledButton,
+              !isChecked && styles.disabledButton,
             ]}
             onPress={handleRegister}
-            disabled={!isChecked || isLoading}
+            disabled={!isChecked}
           >
-            <Text style={styles.buttonText}>
-              {isLoading ? "Loading..." : "Register"}
-            </Text>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -189,11 +183,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 10,
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   checkbox: {
-    backgroundColor: "transparent",
-    borderWidth: 0,
-    padding: 0,
-    marginLeft: 0,
+    marginRight: 8,
+  },
+  checkboxLabel: {
+    fontSize: 16,
   },
   buttonContainer: {
     flexDirection: "row",
