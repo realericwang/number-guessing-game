@@ -19,6 +19,7 @@ const GameScreen = ({ route, navigation }) => {
   const [showHint, setShowHint] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [guessedCorrectly, setGuessedCorrectly] = useState(false);
+  const [hintText, setHintText] = useState("");
 
   useEffect(() => {
     if (gameStarted && !gameOver) {
@@ -90,6 +91,9 @@ const GameScreen = ({ route, navigation }) => {
 
   const useHint = () => {
     setShowHint(true);
+    setHintText(chosenNumber <= 50 
+      ? "The number is between 0 and 50." 
+      : "The number is between 50 and 100.");
   };
 
   const endGame = (reason) => {
@@ -155,7 +159,7 @@ const GameScreen = ({ route, navigation }) => {
       <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
       {showHint && (
         <Text style={styles.hint}>
-          Hint: The number is a multiple of {phone.slice(-1)} between 1 and 100.
+          Hint: {hintText}
         </Text>
       )}
       <TextInput
