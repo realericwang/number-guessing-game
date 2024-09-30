@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,11 @@ import {
 import { CheckBox } from "react-native-elements";
 
 const StartScreen = ({ navigation, route }) => {
-  const { name: routeName, email: routeEmail, phone: routePhone } = route.params || {};
+  const {
+    name: routeName,
+    email: routeEmail,
+    phone: routePhone,
+  } = route.params || {};
   const [name, setName] = useState(routeName || "");
   const [email, setEmail] = useState(routeEmail || "");
   const [phone, setPhone] = useState(routePhone || "");
@@ -19,53 +23,7 @@ const StartScreen = ({ navigation, route }) => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    validateName(name);
-    validateEmail(email);
-    validatePhone(phone);
-  }, [name, email, phone]);
-
-  const validateName = (text) => {
-    if (isSubmitted) {
-      if (text.length <= 1) {
-        setNameError("Name must be more than 1 character");
-      } else if (/\d/.test(text)) {
-        setNameError("Name cannot contain numbers");
-      } else {
-        setNameError("");
-      }
-    }
-  };
-
-  const validateEmail = (text) => {
-    if (isSubmitted) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(text)) {
-        setEmailError("Please enter a valid email address");
-      } else {
-        setEmailError("");
-      }
-    }
-  };
-
-  const validatePhone = (text) => {
-    if (isSubmitted) {
-      if (
-        text.length !== 10 ||
-        !/^\d+$/.test(text) ||
-        ["0", "1"].includes(text.charAt(9))
-      ) {
-        setPhoneError(
-          "Please enter a valid 10-digit phone number (last digit cannot be 0 or 1)"
-        );
-      } else {
-        setPhoneError("");
-      }
-    }
-  };
 
   const handleReset = () => {
     setName("");
@@ -78,20 +36,50 @@ const StartScreen = ({ navigation, route }) => {
   };
 
   const handleRegister = async () => {
-    setIsSubmitted(true);
     setIsLoading(true);
-    validateName(name);
-    validateEmail(email);
-    validatePhone(phone);
-    
+
     if (name && email && phone && !nameError && !emailError && !phoneError) {
       // Simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setIsLoading(false);
       navigation.navigate("Confirm", { name, email, phone });
     } else {
+      setIsLoading(false);
       Alert.alert("Invalid Input", "Please fill in all fields correctly.");
     }
-    setIsLoading(false);
+  };
+
+  const validateName = (text) => {
+    if (text.length <= 1) {
+      setNameError("Name must be more than 1 character");
+    } else if (/\d/.test(text)) {
+      setNameError("Name cannot contain numbers");
+    } else {
+      setNameError("");
+    }
+  };
+
+  const validateEmail = (text) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(text)) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const validatePhone = (text) => {
+    if (
+      text.length !== 10 ||
+      !/^\d+$/.test(text) ||
+      ["0", "1"].includes(text.charAt(9))
+    ) {
+      setPhoneError(
+        "Please enter a valid 10-digit phone number (last digit cannot be 0 or 1)"
+      );
+    } else {
+      setPhoneError("");
+    }
   };
 
   return (
@@ -103,27 +91,36 @@ const StartScreen = ({ navigation, route }) => {
           style={styles.input}
           placeholder="Name"
           value={name}
-          onChangeText={setName}
+          onChangeText={(text) => {
+            setName(text);
+            validateName(text);
+          }}
         />
-        {isSubmitted && nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+        {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
         <TextInput
           style={styles.input}
           placeholder="Email address"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            validateEmail(text);
+          }}
           keyboardType="email-address"
         />
-        {isSubmitted && emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
         <TextInput
           style={styles.input}
           placeholder="Phone Number"
           value={phone}
-          onChangeText={setPhone}
+          onChangeText={(text) => {
+            setPhone(text);
+            validatePhone(text);
+          }}
           keyboardType="phone-pad"
         />
-        {isSubmitted && phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
+        {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
         <CheckBox
           title="I am not a robot"
@@ -137,11 +134,16 @@ const StartScreen = ({ navigation, route }) => {
             <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, (!isChecked || isLoading) && styles.disabledButton]}
+            style={[
+              styles.button,
+              (!isChecked || isLoading) && styles.disabledButton,
+            ]}
             onPress={handleRegister}
             disabled={!isChecked || isLoading}
           >
-            <Text style={styles.buttonText}>{isLoading ? 'Loading...' : 'Register'}</Text>
+            <Text style={styles.buttonText}>
+              {isLoading ? "Loading..." : "Register"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
