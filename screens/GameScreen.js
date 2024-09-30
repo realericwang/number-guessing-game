@@ -8,6 +8,7 @@ import {
   Alert,
   Image,
 } from "react-native";
+import { colors, commonStyles } from "../utils/styles";
 
 const GameScreen = ({ route, navigation }) => {
   const { phone } = route.params;
@@ -182,39 +183,18 @@ const GameScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
+  ...commonStyles,
   restartButtonContainer: {
     position: "absolute",
     top: 150,
     right: 10,
     zIndex: 1,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   instructions: {
     fontSize: 16,
     textAlign: "center",
     marginBottom: 20,
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 10,
-    width: "80%",
-    marginBottom: 20,
-    fontSize: 18,
+    color: colors.text,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -225,6 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
     marginBottom: 10,
+    color: colors.secondary,
   },
   image: {
     width: 100,
@@ -232,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   incorrectGuessContainer: {
-    backgroundColor: "#ffebee",
+    backgroundColor: colors.error,
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
@@ -241,12 +222,12 @@ const styles = StyleSheet.create({
   incorrectGuessText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#d32f2f",
+    color: colors.white,
     marginBottom: 5,
   },
   incorrectGuessMessage: {
     fontSize: 16,
-    color: "#d32f2f",
+    color: colors.error,
     marginBottom: 10,
   },
 });

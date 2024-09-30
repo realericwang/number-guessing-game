@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
+import { colors, commonStyles } from "../utils/styles";
 
 const StartScreen = ({ navigation, route }) => {
   const {
@@ -143,42 +144,18 @@ const StartScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
+  ...commonStyles,
   card: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 10,
     padding: 20,
     width: "100%",
     maxWidth: 400,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginBottom: 10,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -190,6 +167,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     fontSize: 16,
+    color: colors.text,
   },
   buttonContainer: {
     flexDirection: "row",

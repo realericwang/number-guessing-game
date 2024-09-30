@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Button, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { colors, commonStyles } from "../utils/styles";
 
 const ConfirmScreen = ({ route, navigation }) => {
   const { name, email, phone } = route.params;
@@ -52,28 +53,23 @@ const ConfirmScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  ...commonStyles,
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   card: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 10,
     padding: 20,
     width: "80%",
     maxWidth: 400,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
   },
   infoContainer: {
     flexDirection: "row",
@@ -83,9 +79,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: 10,
     flex: 1,
+    color: colors.text,
   },
   value: {
     flex: 2,
+    color: colors.text,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontStyle: "italic",
-    color: "#555",
+    color: colors.secondary,
   },
 });
 
