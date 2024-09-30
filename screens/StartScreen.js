@@ -79,7 +79,7 @@ const StartScreen = ({ navigation, route }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.title}>Registration</Text>
+        <Text style={styles.title}>Welcome</Text>
 
         <TextInput
           style={styles.input}
@@ -128,7 +128,11 @@ const StartScreen = ({ navigation, route }) => {
 
         <View style={styles.buttonContainer}>
           <View style={styles.buttonWrapper}>
-            <Button title="Reset" onPress={handleReset} />
+            <Button 
+              title="Reset" 
+              onPress={handleReset} 
+              color={colors.red} 
+            />
           </View>
           <View style={styles.buttonWrapper}>
             <Button

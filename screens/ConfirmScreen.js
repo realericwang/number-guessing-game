@@ -40,7 +40,11 @@ const ConfirmScreen = ({ route, navigation }) => {
           </Text>
           <View style={styles.buttonContainer}>
             <View style={styles.buttonWrapper}>
-              <Button title="Go Back" onPress={handleGoBack} />
+              <Button 
+                title="Go Back" 
+                onPress={handleGoBack} 
+                color={colors.red} 
+              />
             </View>
             <View style={styles.buttonWrapper}>
               <Button title="Continue" onPress={handleContinue} />

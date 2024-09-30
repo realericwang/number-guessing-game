@@ -10,6 +10,7 @@ export const colors = {
   white: "#FFFFFF",
   black: "#000000",
   gray: "#DDDDDD",
+  red: '#FF0000', 
 };
 
 export const commonStyles = StyleSheet.create({
@@ -25,6 +26,7 @@ export const commonStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: colors.text,
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
