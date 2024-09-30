@@ -21,6 +21,7 @@ const GameScreen = ({ route, navigation }) => {
   const [guessedCorrectly, setGuessedCorrectly] = useState(false);
   const [hintText, setHintText] = useState("");
   const [incorrectGuessMessage, setIncorrectGuessMessage] = useState("");
+  const [gameOverReason, setGameOverReason] = useState("");
 
   useEffect(() => {
     if (gameStarted && !gameOver) {
@@ -28,7 +29,7 @@ const GameScreen = ({ route, navigation }) => {
         setTimeLeft((prevTime) => {
           if (prevTime <= 1) {
             clearInterval(timer);
-            endGame("Time is up!");
+            endGame("You are out of time");
             return 0;
           }
           return prevTime - 1;
@@ -77,7 +78,7 @@ const GameScreen = ({ route, navigation }) => {
     if (guessNumber === chosenNumber) {
       setGuessedCorrectly(true);
     } else if (attemptsLeft === 1) {
-      endGame("Out of attempts!");
+      endGame("You are out of attempts");
     } else {
       setIncorrectGuessMessage(
         guessNumber < chosenNumber
@@ -99,97 +100,83 @@ const GameScreen = ({ route, navigation }) => {
 
   const endGame = (reason) => {
     setGameOver(true);
-    setGameStarted(false);
-    Alert.alert("Game Over", reason);
+    setIncorrectGuessMessage("");
+    setGameOverReason(reason);
   };
 
   const restartGame = () => {
     navigation.navigate("Start");
   };
 
-  if (!gameStarted) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.instructions}>
-          Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
-        </Text>
-        <Button title="Start" onPress={startGame} />
-      </View>
-    );
-  }
-
-  if (guessedCorrectly) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Congratulations!</Text>
-        <Text style={styles.text}>
-          You guessed the number in {4 - attemptsLeft} attempts.
-        </Text>
-        <Image
-          source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
-          style={styles.image}
-        />
-        <Button title="New Game" onPress={startGame} />
-      </View>
-    );
-  }
-
-  if (incorrectGuessMessage !== "") {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>You did not guess correct!</Text>
-        <Text style={styles.incorrectGuessMessage}>
-          {incorrectGuessMessage}
-        </Text>
-        <Button
-          title="Try again"
-          onPress={() => setIncorrectGuessMessage("")}
-        />
-        <Button
-          title="End the game"
-          onPress={() => endGame("Game ended by user.")}
-        />
-      </View>
-    );
-  }
-
-  if (gameOver) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>The game is over</Text>
-        <Image
-          source={require("../assets/sad-smiley.png")}
-          style={styles.image}
-        />
-        <Text style={styles.text}>
-          {timeLeft === 0 ? "Time is up!" : "You ran out of attempts!"}
-        </Text>
-        <Button title="New Game" onPress={startGame} />
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <Button title="Restart" onPress={restartGame} />
-      <Text style={styles.instructions}>
-        Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
-      </Text>
-      <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
-      <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
-      {showHint && <Text style={styles.hint}>Hint: {hintText}</Text>}
-
-      <TextInput
-        style={styles.input}
-        onChangeText={setGuess}
-        value={guess}
-        keyboardType="default"
-        placeholder="Enter your guess"
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="Use a hint" onPress={useHint} disabled={showHint} />
-        <Button title="Submit guess" onPress={handleGuess} />
+      <View style={styles.restartButtonContainer}>
+        <Button title="Restart" onPress={restartGame} color="#007AFF" />
       </View>
+
+      {!gameStarted ? (
+        <>
+          <Text style={styles.instructions}>
+            Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+          </Text>
+          <Button title="Start" onPress={startGame} />
+        </>
+      ) : guessedCorrectly ? (
+        <>
+          <Text style={styles.title}>Congratulations!</Text>
+          <Text style={styles.text}>
+            You guessed the number in {4 - attemptsLeft} attempts.
+          </Text>
+          <Image
+            source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
+            style={styles.image}
+          />
+          <Button title="New Game" onPress={startGame} />
+        </>
+      ) : incorrectGuessMessage !== "" ? (
+        <>
+          <Text style={styles.title}>You did not guess correct!</Text>
+          <Text style={styles.incorrectGuessMessage}>
+            {incorrectGuessMessage}
+          </Text>
+          <Button
+            title="Try again"
+            onPress={() => setIncorrectGuessMessage("")}
+          />
+          <Button title="End the game" onPress={() => endGame("")} />
+        </>
+      ) : gameOver ? (
+        <>
+          <Text style={styles.title}>The game is over</Text>
+          <Image
+            source={require("../assets/sad-smiley.png")}
+            style={styles.image}
+          />
+          <Text style={styles.text}>{gameOverReason}</Text>
+          <Button title="New Game" onPress={startGame} />
+        </>
+      ) : (
+        <>
+          <Text style={styles.instructions}>
+            Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+          </Text>
+          <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
+          <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
+          {showHint && <Text style={styles.hint}>Hint: {hintText}</Text>}
+
+          <TextInput
+            style={styles.input}
+            onChangeText={setGuess}
+            value={guess}
+            keyboardType="default"
+            placeholder="Enter your guess"
+          />
+          <View style={styles.buttonContainer}>
+            <Button title="Use a hint" onPress={useHint} disabled={showHint} />
+            <Button title="Submit guess" onPress={handleGuess} />
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -200,6 +187,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  restartButtonContainer: {
+    position: "absolute",
+    top: 150,
+    right: 10,
+    zIndex: 1,
   },
   title: {
     fontSize: 24,
