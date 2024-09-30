@@ -20,6 +20,7 @@ const GameScreen = ({ route, navigation }) => {
   const [gameOver, setGameOver] = useState(false);
   const [guessedCorrectly, setGuessedCorrectly] = useState(false);
   const [hintText, setHintText] = useState("");
+  const [incorrectGuessMessage, setIncorrectGuessMessage] = useState("");
 
   useEffect(() => {
     if (gameStarted && !gameOver) {
@@ -62,7 +63,12 @@ const GameScreen = ({ route, navigation }) => {
   const handleGuess = () => {
     const guessNumber = parseInt(guess);
     if (isNaN(guessNumber) || guessNumber < 1 || guessNumber > 100) {
-      Alert.alert("Invalid Input", "Please enter a number between 1 and 100.");
+      Alert.alert(
+        "Invalid number!",
+        "Number has to be a multiply of " +
+          phone.slice(-1) +
+          " between 1 and 100."
+      );
       return;
     }
 
@@ -73,27 +79,22 @@ const GameScreen = ({ route, navigation }) => {
     } else if (attemptsLeft === 1) {
       endGame("Out of attempts!");
     } else {
-      Alert.alert(
-        "Incorrect Guess",
+      setIncorrectGuessMessage(
         guessNumber < chosenNumber
-          ? "Try a higher number."
-          : "Try a lower number.",
-        [
-          { text: "Try again", onPress: () => setGuess("") },
-          {
-            text: "End the game",
-            onPress: () => endGame("Game ended by user."),
-          },
-        ]
+          ? "You should guess higher."
+          : "You should guess lower."
       );
+      setGuess("");
     }
   };
 
   const useHint = () => {
     setShowHint(true);
-    setHintText(chosenNumber <= 50 
-      ? "The number is between 0 and 50." 
-      : "The number is between 50 and 100.");
+    setHintText(
+      chosenNumber <= 50
+        ? "The number is between 0 and 50."
+        : "The number is between 50 and 100."
+    );
   };
 
   const endGame = (reason) => {
@@ -133,6 +134,25 @@ const GameScreen = ({ route, navigation }) => {
     );
   }
 
+  if (incorrectGuessMessage !== "") {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>You did not guess correct!</Text>
+        <Text style={styles.incorrectGuessMessage}>
+          {incorrectGuessMessage}
+        </Text>
+        <Button
+          title="Try again"
+          onPress={() => setIncorrectGuessMessage("")}
+        />
+        <Button
+          title="End the game"
+          onPress={() => endGame("Game ended by user.")}
+        />
+      </View>
+    );
+  }
+
   if (gameOver) {
     return (
       <View style={styles.container}>
@@ -157,11 +177,8 @@ const GameScreen = ({ route, navigation }) => {
       </Text>
       <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
       <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
-      {showHint && (
-        <Text style={styles.hint}>
-          Hint: {hintText}
-        </Text>
-      )}
+      {showHint && <Text style={styles.hint}>Hint: {hintText}</Text>}
+
       <TextInput
         style={styles.input}
         onChangeText={setGuess}
@@ -220,6 +237,24 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginBottom: 20,
+  },
+  incorrectGuessContainer: {
+    backgroundColor: "#ffebee",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  incorrectGuessText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#d32f2f",
+    marginBottom: 5,
+  },
+  incorrectGuessMessage: {
+    fontSize: 16,
+    color: "#d32f2f",
+    marginBottom: 10,
   },
 });
 
