@@ -3,7 +3,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Button,
   StyleSheet,
   Alert,
   ScrollView,
@@ -126,16 +126,16 @@ const StartScreen = ({ navigation, route }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleReset}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, !isChecked && styles.disabledButton]}
-            onPress={handleRegister}
-            disabled={!isChecked}
-          >
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonWrapper}>
+            <Button title="Reset" onPress={handleReset} />
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Register"
+              onPress={handleRegister}
+              disabled={!isChecked}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -196,20 +196,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 20,
   },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
+  buttonWrapper: {
     flex: 1,
     marginHorizontal: 5,
-  },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  disabledButton: {
-    backgroundColor: "#ccc",
   },
 });
 

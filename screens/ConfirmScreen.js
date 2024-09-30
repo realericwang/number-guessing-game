@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { View, Text, StyleSheet, Button, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const ConfirmScreen = ({ route, navigation }) => {
@@ -38,12 +38,12 @@ const ConfirmScreen = ({ route, navigation }) => {
             If it is not correct, please go back and edit them.
           </Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleGoBack}>
-              <Text style={styles.buttonText}>Go Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleContinue}>
-              <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonWrapper}>
+              <Button title="Go Back" onPress={handleGoBack} />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button title="Continue" onPress={handleContinue} />
+            </View>
           </View>
         </View>
       </LinearGradient>
@@ -92,17 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 20,
   },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
+  buttonWrapper: {
     flex: 1,
     marginHorizontal: 5,
-  },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
   },
   instructionText: {
     marginTop: 10,

@@ -3,7 +3,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Button,
   StyleSheet,
   Alert,
   Image,
@@ -106,12 +106,9 @@ const GameScreen = ({ route, navigation }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.instructions}>
-          You have 60 seconds and 4 attempts to guess a number that is a
-          multiple of the last digit of your phone number between 1 and 100.
+          Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
         </Text>
-        <TouchableOpacity style={styles.button} onPress={startGame}>
-          <Text style={styles.buttonText}>Start</Text>
-        </TouchableOpacity>
+        <Button title="Start" onPress={startGame} />
       </View>
     );
   }
@@ -127,9 +124,7 @@ const GameScreen = ({ route, navigation }) => {
           source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
           style={styles.image}
         />
-        <TouchableOpacity style={styles.button} onPress={startGame}>
-          <Text style={styles.buttonText}>New Game</Text>
-        </TouchableOpacity>
+        <Button title="New Game" onPress={startGame} />
       </View>
     );
   }
@@ -145,18 +140,17 @@ const GameScreen = ({ route, navigation }) => {
         <Text style={styles.text}>
           {timeLeft === 0 ? "Time is up!" : "You ran out of attempts!"}
         </Text>
-        <TouchableOpacity style={styles.button} onPress={startGame}>
-          <Text style={styles.buttonText}>New Game</Text>
-        </TouchableOpacity>
+        <Button title="New Game" onPress={startGame} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.restartButton} onPress={restartGame}>
-        <Text style={styles.buttonText}>Restart</Text>
-      </TouchableOpacity>
+      <Button title="Restart" onPress={restartGame} />
+      <Text style={styles.instructions}>
+        Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+      </Text>
       <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
       <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
       {showHint && (
@@ -168,20 +162,12 @@ const GameScreen = ({ route, navigation }) => {
         style={styles.input}
         onChangeText={setGuess}
         value={guess}
-        keyboardType="numeric"
+        keyboardType="default"
         placeholder="Enter your guess"
       />
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={useHint}
-          disabled={showHint}
-        >
-          <Text style={styles.buttonText}>Use a hint</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleGuess}>
-          <Text style={styles.buttonText}>Submit guess</Text>
-        </TouchableOpacity>
+        <Button title="Use a hint" onPress={useHint} disabled={showHint} />
+        <Button title="Submit guess" onPress={handleGuess} />
       </View>
     </View>
   );
@@ -220,25 +206,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  restartButton: {
-    position: "absolute",
-    top: 20,
-    right: 20,
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
   },
   hint: {
     fontSize: 16,
