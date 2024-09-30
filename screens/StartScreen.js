@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { colors, commonStyles } from "../utils/styles";
 
 const StartScreen = ({ navigation, route }) => {
@@ -107,7 +107,9 @@ const StartScreen = ({ navigation, route }) => {
             }}
             keyboardType="email-address"
           />
-          {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+          {emailError ? (
+            <Text style={styles.errorText}>{emailError}</Text>
+          ) : null}
 
           <TextInput
             style={styles.input}
@@ -119,7 +121,9 @@ const StartScreen = ({ navigation, route }) => {
             }}
             keyboardType="phone-pad"
           />
-          {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
+          {phoneError ? (
+            <Text style={styles.errorText}>{phoneError}</Text>
+          ) : null}
 
           <View style={styles.checkboxContainer}>
             <Checkbox
@@ -133,11 +137,7 @@ const StartScreen = ({ navigation, route }) => {
 
           <View style={styles.buttonContainer}>
             <View style={styles.buttonWrapper}>
-              <Button 
-                title="Reset" 
-                onPress={handleReset} 
-                color={colors.red} 
-              />
+              <Button title="Reset" onPress={handleReset} color={colors.red} />
             </View>
             <View style={styles.buttonWrapper}>
               <Button
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   card: {

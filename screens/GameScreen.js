@@ -9,11 +9,13 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { colors, commonStyles } from "../utils/styles";
 
 const GameScreen = ({ route, navigation }) => {
   const { phone } = route.params;
+
+  // State variables
   const [chosenNumber, setChosenNumber] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
@@ -26,6 +28,7 @@ const GameScreen = ({ route, navigation }) => {
   const [incorrectGuessMessage, setIncorrectGuessMessage] = useState("");
   const [gameOverReason, setGameOverReason] = useState("");
 
+  // Timer effect
   useEffect(() => {
     if (gameStarted && !gameOver) {
       const timer = setInterval(() => {
@@ -43,6 +46,7 @@ const GameScreen = ({ route, navigation }) => {
     }
   }, [gameStarted, gameOver]);
 
+  // Generate a random number based on the last digit of the phone number
   const generateNumber = () => {
     const lastDigit = parseInt(phone.slice(-1));
     const possibleNumbers = [];
@@ -53,6 +57,7 @@ const GameScreen = ({ route, navigation }) => {
     return possibleNumbers[randomIndex];
   };
 
+  // Start a new game
   const startGame = () => {
     setChosenNumber(generateNumber());
     setGameStarted(true);
@@ -64,6 +69,7 @@ const GameScreen = ({ route, navigation }) => {
     setGuessedCorrectly(false);
   };
 
+  // Handle user's guess
   const handleGuess = () => {
     const guessNumber = parseInt(guess);
     if (isNaN(guessNumber) || guessNumber < 1 || guessNumber > 100) {
@@ -92,6 +98,7 @@ const GameScreen = ({ route, navigation }) => {
     }
   };
 
+  // Provide a hint to the user
   const useHint = () => {
     setShowHint(true);
     setHintText(
@@ -101,12 +108,14 @@ const GameScreen = ({ route, navigation }) => {
     );
   };
 
+  // End the game
   const endGame = (reason) => {
     setGameOver(true);
     setIncorrectGuessMessage("");
     setGameOverReason(reason);
   };
 
+  // Restart the game (navigate back to Start screen)
   const restartGame = () => {
     navigation.navigate("Start");
   };
@@ -117,32 +126,34 @@ const GameScreen = ({ route, navigation }) => {
       style={styles.gradient}
     >
       <View style={styles.restartButtonContainer}>
-            <Button title="Restart" onPress={restartGame} color={colors.red} />
-          </View>
+        <Button title="Restart" onPress={restartGame} color={colors.red} />
+      </View>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.card}>
-          
-
           {!gameStarted ? (
+            // Game not started yet
             <>
               <Text style={styles.instructions}>
-                Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+                Guess a number between 1 & 100 that is multiply of{" "}
+                {phone.slice(-1)}
               </Text>
               <Button title="Start" onPress={startGame} />
             </>
           ) : guessedCorrectly ? (
+            // User guessed correctly
             <>
-              <Text style={styles.title}>Congratulations!</Text>
-              <Text style={styles.text}>
-                You guessed the number in {4 - attemptsLeft} attempts.
-              </Text>
+              <Text style={styles.title}>You guessed correct!</Text>
+              <Text style={styles.text}>Attempts used: {4 - attemptsLeft}</Text>
               <Image
-                source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
+                source={{
+                  uri: `https://picsum.photos/id/${chosenNumber}/100/100`,
+                }}
                 style={styles.image}
               />
               <Button title="New Game" onPress={startGame} />
             </>
           ) : incorrectGuessMessage !== "" ? (
+            // Incorrect guess feedback
             <>
               <Text style={styles.title}>You did not guess correct!</Text>
               <Text style={styles.incorrectGuessMessage}>
@@ -155,6 +166,7 @@ const GameScreen = ({ route, navigation }) => {
               <Button title="End the game" onPress={() => endGame("")} />
             </>
           ) : gameOver ? (
+            // Game over screen
             <>
               <Text style={styles.title}>The game is over</Text>
               <Image
@@ -165,9 +177,11 @@ const GameScreen = ({ route, navigation }) => {
               <Button title="New Game" onPress={startGame} />
             </>
           ) : (
+            // Active game screen
             <>
               <Text style={styles.instructions}>
-                Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+                Guess a number between 1 & 100 that is multiply of{" "}
+                {phone.slice(-1)}
               </Text>
               <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
               <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
@@ -181,7 +195,11 @@ const GameScreen = ({ route, navigation }) => {
                 placeholder="Enter your guess"
               />
               <View style={styles.buttonContainer}>
-                <Button title="Use a hint" onPress={useHint} disabled={showHint} />
+                <Button
+                  title="Use a hint"
+                  onPress={useHint}
+                  disabled={showHint}
+                />
                 <Button title="Submit guess" onPress={handleGuess} />
               </View>
             </>
@@ -199,8 +217,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   card: {
@@ -242,6 +260,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginBottom: 20,
+    alignSelf: "center",
   },
   incorrectGuessContainer: {
     backgroundColor: colors.error,
@@ -260,6 +279,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.error,
     marginBottom: 10,
+  },
+  text: {
+    fontSize: 16,
+    color: colors.text,
+    marginBottom: 10,
+    textAlign: "center",
   },
 });
 

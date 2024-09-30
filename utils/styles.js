@@ -4,13 +4,13 @@ export const colors = {
   primary: "#007AFF",
   secondary: "#4630EB",
   background: "#f5f5f5",
-  text: "#333333",
+  text: "#8A2BE2",
   error: "#d32f2f",
   success: "#4CAF50",
   white: "#FFFFFF",
   black: "#000000",
   gray: "#DDDDDD",
-  red: '#FF0000', 
+  red: "#FF0000",
 };
 
 export const commonStyles = StyleSheet.create({
