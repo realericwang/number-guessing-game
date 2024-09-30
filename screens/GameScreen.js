@@ -7,7 +7,9 @@ import {
   StyleSheet,
   Alert,
   Image,
+  ScrollView,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 import { colors, commonStyles } from "../utils/styles";
 
 const GameScreen = ({ route, navigation }) => {
@@ -110,83 +112,112 @@ const GameScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[colors.primary, colors.secondary]}
+      style={styles.gradient}
+    >
       <View style={styles.restartButtonContainer}>
-        <Button title="Restart" onPress={restartGame} color="#007AFF" />
-      </View>
-
-      {!gameStarted ? (
-        <>
-          <Text style={styles.instructions}>
-            Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
-          </Text>
-          <Button title="Start" onPress={startGame} />
-        </>
-      ) : guessedCorrectly ? (
-        <>
-          <Text style={styles.title}>Congratulations!</Text>
-          <Text style={styles.text}>
-            You guessed the number in {4 - attemptsLeft} attempts.
-          </Text>
-          <Image
-            source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
-            style={styles.image}
-          />
-          <Button title="New Game" onPress={startGame} />
-        </>
-      ) : incorrectGuessMessage !== "" ? (
-        <>
-          <Text style={styles.title}>You did not guess correct!</Text>
-          <Text style={styles.incorrectGuessMessage}>
-            {incorrectGuessMessage}
-          </Text>
-          <Button
-            title="Try again"
-            onPress={() => setIncorrectGuessMessage("")}
-          />
-          <Button title="End the game" onPress={() => endGame("")} />
-        </>
-      ) : gameOver ? (
-        <>
-          <Text style={styles.title}>The game is over</Text>
-          <Image
-            source={require("../assets/sad-smiley.png")}
-            style={styles.image}
-          />
-          <Text style={styles.text}>{gameOverReason}</Text>
-          <Button title="New Game" onPress={startGame} />
-        </>
-      ) : (
-        <>
-          <Text style={styles.instructions}>
-            Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
-          </Text>
-          <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
-          <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
-          {showHint && <Text style={styles.hint}>Hint: {hintText}</Text>}
-
-          <TextInput
-            style={styles.input}
-            onChangeText={setGuess}
-            value={guess}
-            keyboardType="default"
-            placeholder="Enter your guess"
-          />
-          <View style={styles.buttonContainer}>
-            <Button title="Use a hint" onPress={useHint} disabled={showHint} />
-            <Button title="Submit guess" onPress={handleGuess} />
+            <Button title="Restart" onPress={restartGame} color={colors.red} />
           </View>
-        </>
-      )}
-    </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.card}>
+          
+
+          {!gameStarted ? (
+            <>
+              <Text style={styles.instructions}>
+                Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+              </Text>
+              <Button title="Start" onPress={startGame} />
+            </>
+          ) : guessedCorrectly ? (
+            <>
+              <Text style={styles.title}>Congratulations!</Text>
+              <Text style={styles.text}>
+                You guessed the number in {4 - attemptsLeft} attempts.
+              </Text>
+              <Image
+                source={{ uri: `https://picsum.photos/id/${chosenNumber}/100/100` }}
+                style={styles.image}
+              />
+              <Button title="New Game" onPress={startGame} />
+            </>
+          ) : incorrectGuessMessage !== "" ? (
+            <>
+              <Text style={styles.title}>You did not guess correct!</Text>
+              <Text style={styles.incorrectGuessMessage}>
+                {incorrectGuessMessage}
+              </Text>
+              <Button
+                title="Try again"
+                onPress={() => setIncorrectGuessMessage("")}
+              />
+              <Button title="End the game" onPress={() => endGame("")} />
+            </>
+          ) : gameOver ? (
+            <>
+              <Text style={styles.title}>The game is over</Text>
+              <Image
+                source={require("../assets/sad-smiley.png")}
+                style={styles.image}
+              />
+              <Text style={styles.text}>{gameOverReason}</Text>
+              <Button title="New Game" onPress={startGame} />
+            </>
+          ) : (
+            <>
+              <Text style={styles.instructions}>
+                Guess a number between 1 & 100 that is multiply of {phone.slice(-1)}
+              </Text>
+              <Text style={styles.text}>Time left: {timeLeft} seconds</Text>
+              <Text style={styles.text}>Attempts left: {attemptsLeft}</Text>
+              {showHint && <Text style={styles.hint}>Hint: {hintText}</Text>}
+
+              <TextInput
+                style={styles.input}
+                onChangeText={setGuess}
+                value={guess}
+                keyboardType="default"
+                placeholder="Enter your guess"
+              />
+              <View style={styles.buttonContainer}>
+                <Button title="Use a hint" onPress={useHint} disabled={showHint} />
+                <Button title="Submit guess" onPress={handleGuess} />
+              </View>
+            </>
+          )}
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   ...commonStyles,
+  gradient: {
+    flex: 1,
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    padding: 20,
+    width: "100%",
+    maxWidth: 400,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   restartButtonContainer: {
     position: "absolute",
-    top: 150,
+    top: 200,
     right: 10,
     zIndex: 1,
   },

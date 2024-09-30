@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
+import { LinearGradient } from 'expo-linear-gradient';
 import { colors, commonStyles } from "../utils/styles";
 
 const StartScreen = ({ navigation, route }) => {
@@ -77,78 +78,92 @@ const StartScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.title}>Welcome</Text>
+    <LinearGradient
+      colors={[colors.primary, colors.secondary]}
+      style={styles.gradient}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.title}>Welcome</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={(text) => {
-            setName(text);
-            validateName(text);
-          }}
-        />
-        {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Email address"
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-            validateEmail(text);
-          }}
-          keyboardType="email-address"
-        />
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          value={phone}
-          onChangeText={(text) => {
-            setPhone(text);
-            validatePhone(text);
-          }}
-          keyboardType="phone-pad"
-        />
-        {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
-
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            value={isChecked}
-            onValueChange={setIsChecked}
-            color={isChecked ? "#4630EB" : undefined}
-            style={styles.checkbox}
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={(text) => {
+              setName(text);
+              validateName(text);
+            }}
           />
-          <Text style={styles.checkboxLabel}>I am not a robot</Text>
-        </View>
+          {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonWrapper}>
-            <Button 
-              title="Reset" 
-              onPress={handleReset} 
-              color={colors.red} 
+          <TextInput
+            style={styles.input}
+            placeholder="Email address"
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+              validateEmail(text);
+            }}
+            keyboardType="email-address"
+          />
+          {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            value={phone}
+            onChangeText={(text) => {
+              setPhone(text);
+              validatePhone(text);
+            }}
+            keyboardType="phone-pad"
+          />
+          {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
+
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              value={isChecked}
+              onValueChange={setIsChecked}
+              color={isChecked ? "#4630EB" : undefined}
+              style={styles.checkbox}
             />
+            <Text style={styles.checkboxLabel}>I am not a robot</Text>
           </View>
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Register"
-              onPress={handleRegister}
-              disabled={!isChecked}
-            />
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonWrapper}>
+              <Button 
+                title="Reset" 
+                onPress={handleReset} 
+                color={colors.red} 
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                title="Register"
+                onPress={handleRegister}
+                disabled={!isChecked}
+              />
+            </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   ...commonStyles,
+  gradient: {
+    flex: 1,
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
   card: {
     backgroundColor: colors.white,
     borderRadius: 10,
