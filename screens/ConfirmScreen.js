@@ -34,6 +34,9 @@ const ConfirmScreen = ({ route, navigation }) => {
             <Text style={styles.label}>Phone:</Text>
             <Text style={styles.value}>{phone}</Text>
           </View>
+          <Text style={styles.instructionText}>
+            If it is not correct, please go back and edit them.
+          </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={handleGoBack}>
               <Text style={styles.buttonText}>Go Back</Text>
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
@@ -100,6 +103,12 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  instructionText: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontStyle: 'italic',
+    color: '#555',
   },
 });
 
