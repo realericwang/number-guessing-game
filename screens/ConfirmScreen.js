@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ConfirmScreen = ({ route, navigation }) => {
   const { name, email, phone } = route.params;
@@ -10,14 +10,13 @@ const ConfirmScreen = ({ route, navigation }) => {
   };
 
   const handleContinue = () => {
-    // Navigate to the game screen 
-    console.log('Continuing to the game...');
+    navigation.navigate("Game", { phone });
   };
 
   return (
     <Modal transparent={true} visible={true} animationType="fade">
       <LinearGradient
-        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.8)']}
+        colors={["rgba(0,0,0,0.5)", "rgba(0,0,0,0.8)"]}
         style={styles.container}
       >
         <View style={styles.card}>
@@ -54,16 +53,16 @@ const ConfirmScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    width: '80%',
+    width: "80%",
     maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -71,16 +70,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   infoContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
   label: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 10,
     flex: 1,
   },
@@ -88,27 +87,27 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#007AFF",
     padding: 10,
     borderRadius: 5,
     flex: 1,
     marginHorizontal: 5,
   },
   buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold',
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
   },
   instructionText: {
     marginTop: 10,
     marginBottom: 10,
-    fontStyle: 'italic',
-    color: '#555',
+    fontStyle: "italic",
+    color: "#555",
   },
 });
 

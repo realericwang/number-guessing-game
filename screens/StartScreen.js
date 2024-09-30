@@ -8,7 +8,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import Checkbox from 'expo-checkbox';
+import Checkbox from "expo-checkbox";
 
 const StartScreen = ({ navigation, route }) => {
   const {
@@ -119,7 +119,7 @@ const StartScreen = ({ navigation, route }) => {
           <Checkbox
             value={isChecked}
             onValueChange={setIsChecked}
-            color={isChecked ? '#4630EB' : undefined}
+            color={isChecked ? "#4630EB" : undefined}
             style={styles.checkbox}
           />
           <Text style={styles.checkboxLabel}>I am not a robot</Text>
@@ -130,10 +130,7 @@ const StartScreen = ({ navigation, route }) => {
             <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[
-              styles.button,
-              !isChecked && styles.disabledButton,
-            ]}
+            style={[styles.button, !isChecked && styles.disabledButton]}
             onPress={handleRegister}
             disabled={!isChecked}
           >
@@ -184,8 +181,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   checkbox: {
