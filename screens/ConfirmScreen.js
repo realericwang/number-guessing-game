@@ -10,6 +10,7 @@ const ConfirmScreen = ({ route, navigation }) => {
   };
 
   const handleContinue = () => {
+    navigation.goBack(); // Close the modal
     navigation.navigate("Game", { phone });
   };
 

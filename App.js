@@ -29,7 +29,10 @@ export default function App() {
         <Stack.Screen
           name="Game"
           component={GameScreen}
-          options={{ title: "Number Guessing Game" }}
+          options={{
+            headerShown: false,
+            presentation: "fullScreenModal",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
